@@ -35,7 +35,18 @@ const toggleCommentButton = (postId) => {
    if(!postId) return;
    const buttonSelect =  document.querySelector('button[data-post-id="' + postId + '"]');
    if(!buttonSelect) return null;
-   const buttonToggle =  (buttonSelect.textContent == 'Show Comments') ? buttonSelect.textContent = 'Hide Comments' : buttonSelect.textContent = 'Show Comments';
+   const buttonToggle =  (buttonSelect.textContent == 'Show Comments' ? buttonSelect.textContent = 'Hide Comments' : buttonSelect.textContent = 'Show Comments');
    return buttonToggle;
 }
 
+const deleteChildElements = (parentElement) => {
+   if(!parentElement?.tagName) return;
+   let childVar = parentElement.lastElementChild;
+
+   while (childVar){
+      parentElement.removeChild(childVar);
+      childVar = parentElement.lastElementChild;
+   }
+   return parentElement;
+
+}
