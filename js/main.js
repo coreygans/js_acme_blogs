@@ -36,7 +36,7 @@ const toggleCommentButton = (postId) => {
    const buttonSelect =  document.querySelector('button[data-post-id="' + postId + '"]');
    if(!buttonSelect) return null;
    const buttonToggle =  (buttonSelect.textContent == 'Show Comments' ? buttonSelect.textContent = 'Hide Comments' : buttonSelect.textContent = 'Show Comments');
-   return buttonToggle;
+   return buttonSelect;
 }
 
 const deleteChildElements = (parentElement) => {
