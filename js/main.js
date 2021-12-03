@@ -50,3 +50,103 @@ const deleteChildElements = (parentElement) => {
    return parentElement;
 
 }
+
+const addButtonListeners = () => {
+   const buttonSelect =  document.querySelectorAll('main button');
+   if(!buttonSelect) return;
+   for(let i = 0; i < buttonSelect.length; i++){
+      const button = document.querySelector('button');
+      const postId = button.dataset.postId;
+      button.addEventListener("click", function (e) {toggleComments(e, postId)}, false);
+   }
+
+   return buttonSelect;
+}
+
+addButtonListeners();
+
+const removeButtonListeners = () => {
+   const buttonSelect =  document.querySelectorAll('main button');
+   if(!buttonSelect) return;
+   for(let i = 0; i < buttonSelect.length; i++){
+      const button = document.querySelector('button');
+      const postId = button.dataset.postId;
+      button.removeEventListener("click", function (e) {toggleComments(e, postId)}, false);
+   }
+
+   return buttonSelect;
+
+}
+
+
+const createComments = (jsonComments) => {
+
+
+}
+
+
+const populateSelectMenu = () => {
+
+
+}
+
+
+const getUsers = () => {
+
+
+}
+
+const getUserPosts = () => {
+
+
+}
+
+const getUser = () => {
+
+
+}
+
+const getPostComments = () => {
+
+
+}
+
+const displayComments = () => {
+
+
+}
+
+const createPosts = () => {
+
+
+}
+
+const displayPosts = () => {
+
+
+}
+
+const toggleComments = (event, postId) => {
+
+
+}
+
+const refreshPosts = () => {
+
+
+}
+
+const selectMenuChangeEventHandler = () => {
+
+
+}
+
+const initPage = () => {
+
+
+}
+
+const initApp = () => {
+
+
+}
