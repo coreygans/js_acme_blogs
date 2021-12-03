@@ -68,7 +68,7 @@ addButtonListeners();
 const removeButtonListeners = () => {
    const buttonSelect =  document.querySelectorAll('main button');
    if(!buttonSelect) return;
-   for(let i = 0; i < buttonSelect.length; i++){
+   for(let i = 0; i < buttonSelect?.length; i++){
       const button = document.querySelector('button');
       const postId = button.dataset.postId;
       button.removeEventListener("click", function (e) {toggleComments(e, postId)}, false);
@@ -80,34 +80,77 @@ const removeButtonListeners = () => {
 
 
 const createComments = (jsonComments) => {
+ if(!jsonComments) return;
+   const fragment = document.createDocumentFragment();
+   for(let i = 0; i < jsonComments.length; i++){
+      const article = document.createElement('article');
+      const h3 = createElemWithText('h3', jsonComments[i].name);
+      const articleBody = createElemWithText('p', jsonComments[i].body);
+      const email = createElemWithText('p', `From: ${jsonComments[i].email}`);
+      article.append(h3);
+      article.append(articleBody);
+      article.append(email);   
+      fragment.append(article);
+   }
+   return fragment;
+}
+
+
+const populateSelectMenu = (users) => {
+if(!users) return;
+const selectMenu = document.getElementById('selectMenu');
+const createOptions = createSelectOptions(users);
+for(let i = 0; i < createOptions?.length; i++){
+   selectMenu.append(createOptions);
+}
+return selectMenu;
+}
+
+
+const getUsers = async () => {
+   try{
+      const userData = await fetch('https://jsonplaceholder.typicode.com/users');
+      return userData.json();
+   }
+   catch(err){
+      return err;
+   }
+}
+
+const getUserPosts = async (userid) => {
+   if(!userid) return;
+   try{
+      const userPosts = await fetch(`https://jsonplaceholder.typicode.com/users/${userid}/posts`);
+      return userPosts.json();
+   }
+   catch(err){
+      return err;
+   }
+
+}
+
+const getUser = async (userid) => {
+   if(!userid) return;
+   try{
+      const user = await fetch(`https://jsonplaceholder.typicode.com/users/${userid}`);
+      return user.json();
+   }
+   catch(err){
+      return err;
+   }
 
 
 }
 
-
-const populateSelectMenu = () => {
-
-
-}
-
-
-const getUsers = () => {
-
-
-}
-
-const getUserPosts = () => {
-
-
-}
-
-const getUser = () => {
-
-
-}
-
-const getPostComments = () => {
-
+const getPostComments = async (postid) => {
+   if(!postid) return;
+   try{
+      const comments = await fetch(`https://jsonplaceholder.typicode.com/posts/${postid}/comments`);
+      return comments.json();
+   }
+   catch(err){
+      return err;
+   }
 
 }
 
