@@ -63,7 +63,6 @@ const addButtonListeners = () => {
    return buttonSelect;
 }
 
-addButtonListeners();
 
 const removeButtonListeners = () => {
    const buttonSelect =  document.querySelectorAll('main button');
@@ -126,7 +125,6 @@ const getUserPosts = async (userid) => {
    catch(err){
       return err;
    }
-
 }
 
 const getUser = async (userid) => {
@@ -138,8 +136,6 @@ const getUser = async (userid) => {
    catch(err){
       return err;
    }
-
-
 }
 
 const getPostComments = async (postid) => {
@@ -151,45 +147,95 @@ const getPostComments = async (postid) => {
    catch(err){
       return err;
    }
-
 }
 
-const displayComments = () => {
-
-
+const displayComments = async (postId) => {
+   if(!postId) return;
+   const section = document.createElement('section');
+   section.dataset.postId = postId;
+   section.classList.add('comments','hide');
+   const comments = await getPostComments(postId);
+   const fragment = createComments(comments);
+   section.append(fragment);
+   return section;
 }
 
-const createPosts = () => {
+const createPosts = async (posts) => {
+   if(!posts) return;
+   const fragment = document.createDocumentFragment();
 
+   for(let i = 0; i < posts.length; i++){
+      const article = document.createElement('article');
+      const h2 = createElemWithText('h2', posts[i].title);
+      const body = createElemWithText('p', posts[i].body);
+      const postIdentifier = createElemWithText('p', `Post ID: ${posts[i].id}`);
+      const author = await getUser(posts[i].userId);
+      const authorInfo =  createElemWithText('p', `Author: ${author.name} with ${author.company.name}`);
+      const catchPhrase = createElemWithText('p', author.company.catchphrase);
+      const showCommentsButton = createElemWithText('button', 'Show Comments');
+      showCommentsButton.setAttribute('postid', posts[i].id );
+      article.append(h2);
+      article.append(body);
+      article.append(postIdentifier);   
+      article.append(authorInfo);   
+      article.append(catchPhrase);   
+      article.append(showCommentsButton);   
+      const section = await displayComments(posts[i].id); 
+      article.append(section);
+      fragment.append(article);
+   }
 
+   return fragment;
 }
 
-const displayPosts = () => {
-
-
+const displayPosts = async (posts) => {
+   if(!posts) return;
+   const mainElement = document.querySelector('main');
+   const element = await (posts) ? createPosts(posts): createElemWithText('p','Select an Employee to display their posts.') ;
+   mainElement.append(element);
+   return element;
 }
 
 const toggleComments = (event, postId) => {
+   if(!event || !postId) return;
+   event.target.listener = true;
+   const section = toggleCommentSection(postId);
+   const button = toggleCommentButton(postId);
 
-
-}
-
-const refreshPosts = () => {
-
-
-}
-
-const selectMenuChangeEventHandler = () => {
-
+   return [section, button];
 
 }
 
-const initPage = () => {
+const refreshPosts = async (posts) => {
+   if(!posts) return;
+ const removeButtons = removeButtonListeners();
+ const dce = deleteChildElements('main');
+ const dPosts = await displayPosts(posts); 
+ const addButtons = addButtonListeners(); 
 
+ return [removeButtons, dce, dPosts, addButtons];
+
+}
+
+const selectMenuChangeEventHandler = async (e) => {
+const userId = e.target.value || 1;
+const posts = await getUserPosts(userId);
+const rPosts = refreshPosts(posts);
+return [uid, posts, rPosts];
+}
+
+const initPage = async () => {
+   const users =  await getUsers();
+   const selectE = populateSelectMenu(users);
+   return [users, selectE];
 
 }
 
 const initApp = () => {
-
+initPage();
+const selectMenu = document.getElementById('selectMenu');
+selectMenu.addEventListener('change', selectMenuChangeEventHandler());
 
 }
+
+document.addEventListener('DOMContentLoaded', initApp())
