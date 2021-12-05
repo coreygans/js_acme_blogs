@@ -68,7 +68,7 @@ const removeButtonListeners = () => {
    const buttonSelect =  document.querySelectorAll('main button');
    if(!buttonSelect) return;
    for(let i = 0; i < buttonSelect?.length; i++){
-      const button = document.querySelector('button');
+      const button = buttonSelect[i];
       const postId = button.dataset.postId;
       button.removeEventListener("click", function (e) {toggleComments(e, postId)}, false);
    }
@@ -100,7 +100,7 @@ if(!users) return;
 const selectMenu = document.getElementById('selectMenu');
 const createOptions = createSelectOptions(users);
 for(let i = 0; i < createOptions?.length; i++){
-   selectMenu.append(createOptions);
+   selectMenu.append(createOptions[i]);
 }
 return selectMenu;
 }
