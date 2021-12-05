@@ -173,7 +173,7 @@ const createPosts = async (posts) => {
       const authorInfo =  createElemWithText('p', `Author: ${author.name} with ${author.company.name}`);
       const catchPhrase = createElemWithText('p', author.company.catchphrase);
       const showCommentsButton = createElemWithText('button', 'Show Comments');
-      showCommentsButton.setAttribute('postid', posts[i].id );
+      showCommentsButton.dataset.postId = posts[i].id;
       article.append(h2);
       article.append(body);
       article.append(postIdentifier);   
@@ -191,7 +191,7 @@ const createPosts = async (posts) => {
 const displayPosts = async (posts) => {
    if(!posts) return;
    const mainElement = document.querySelector('main');
-   const element = await (posts) ? createPosts(posts): createElemWithText('p','Select an Employee to display their posts.') ;
+   const element = await (posts) ? createPosts(posts): createElemWithText('p','Select an Employee to display their posts.');
    mainElement.append(element);
    return element;
 }
@@ -218,10 +218,10 @@ const refreshPosts = async (posts) => {
 }
 
 const selectMenuChangeEventHandler = async (e) => {
-const userId = e.target.value || 1;
+const userId = e?.target?.value || 1;
 const posts = await getUserPosts(userId);
-const rPosts = refreshPosts(posts);
-return [uid, posts, rPosts];
+const rPosts = await refreshPosts(posts);
+return [userId, posts, rPosts];
 }
 
 const initPage = async () => {
