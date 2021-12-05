@@ -191,7 +191,7 @@ const createPosts = async (posts) => {
 const displayPosts = async (posts) => {
    if(!posts) return;
    const mainElement = document.querySelector('main');
-   const element = await (posts) ? createPosts(posts): createElemWithText('p','Select an Employee to display their posts.');
+   const element = await (posts) ? await createPosts(posts): createElemWithText('p','Select an Employee to display their posts.');
    mainElement.append(element);
    return element;
 }
