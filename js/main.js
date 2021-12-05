@@ -55,7 +55,7 @@ const addButtonListeners = () => {
    const buttonSelect =  document.querySelectorAll('main button');
    if(!buttonSelect) return;
    for(let i = 0; i < buttonSelect.length; i++){
-      const button = document.querySelector('button');
+      const button = buttonSelect[i];
       const postId = button.dataset.postId;
       button.addEventListener("click", function (e) {toggleComments(e, postId)}, false);
    }
