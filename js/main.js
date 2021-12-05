@@ -220,8 +220,8 @@ const refreshPosts = async (posts) => {
 const selectMenuChangeEventHandler = async (e) => {
 const userId = e?.target?.value || 1;
 const posts = await getUserPosts(userId);
-const rPosts = await refreshPosts(posts);
-return [userId, posts, rPosts];
+const refreshPostsArray = await refreshPosts(posts);
+return [userId, posts, refreshPostsArray];
 }
 
 const initPage = async () => {
