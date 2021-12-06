@@ -208,10 +208,10 @@ const toggleComments = (event, postId) => {
 
 const refreshPosts = async (posts) => {
    if(!posts) return;
- const removeButtons = removeButtonListeners();
+ const removeButtons = removeButtonListeners;
  const dce = deleteChildElements('main');
  const dPosts = await displayPosts(posts); 
- const addButtons = addButtonListeners(); 
+ const addButtons = addButtonListeners; 
 
  return [removeButtons, dce, dPosts, addButtons];
 
@@ -234,8 +234,8 @@ const initPage = async () => {
 const initApp = () => {
 initPage();
 const selectMenu = document.getElementById('selectMenu');
-selectMenu.addEventListener('change', selectMenuChangeEventHandler());
+selectMenu.addEventListener('change', selectMenuChangeEventHandler);
 
 }
 
-document.addEventListener('DOMContentLoaded', initApp())
+document.addEventListener('DOMContentLoaded', initApp)
