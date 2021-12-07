@@ -19,7 +19,6 @@ const createSelectOptions = (users) => {
 return userArray;
 }
 
-//TODO: Comment section isn't loading 
 const toggleCommentSection = (postId) => {
    if(!postId) return;
    const sectionSelect =  document.querySelector('section[data-post-id="' + postId + '"]');
@@ -30,7 +29,6 @@ const toggleCommentSection = (postId) => {
 }
 
 
-//TODO: Comment buttons aren't toggling
 const toggleCommentButton = (postId) => {
    if(!postId) return;
    const buttonSelect =  document.querySelector('button[data-post-id="' + postId + '"]');
@@ -57,7 +55,6 @@ const addButtonListeners = () => {
    for(let i = 0; i < buttonSelect.length; i++){
       const button = buttonSelect[i];
       const postId = button.dataset.postId;
-      console.log(postId);
       button.addEventListener("click", function (e) {toggleComments(e, postId)}, false);
    }
 
