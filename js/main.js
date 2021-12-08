@@ -169,7 +169,7 @@ const createPosts = async (posts) => {
       const postIdentifier = createElemWithText('p', `Post ID: ${posts[i].id}`);
       const author = await getUser(posts[i].userId);
       const authorInfo =  createElemWithText('p', `Author: ${author.name} with ${author.company.name}`);
-      const catchPhrase = createElemWithText('p', author.company.catchphrase);
+      const catchPhrase = createElemWithText('p', author.company.catchPhrase);
       const showCommentsButton = createElemWithText('button', 'Show Comments');
       showCommentsButton.dataset.postId = posts[i].id;
       article.append(h2);
@@ -187,9 +187,8 @@ const createPosts = async (posts) => {
 }
 
 const displayPosts = async (posts) => {
-   if(!posts) return;
    const mainElement = document.querySelector('main');
-   const element = await (posts) ? await createPosts(posts): createElemWithText('p','Select an Employee to display their posts.');
+   const element = (Array.isArray(posts) && posts.length) ? await createPosts(posts): createElemWithText('p','Select an Employee to display their posts.', 'default-text');
    mainElement.append(element);
    return element;
 }
@@ -205,20 +204,26 @@ const toggleComments = (event, postId) => {
 }
 
 const refreshPosts = async (posts) => {
-   if(!posts) return;
- const removeButtons = removeButtonListeners;
- const dce = deleteChildElements('main');
- const dPosts = await displayPosts(posts); 
- const addButtons = addButtonListeners(); 
+   if(!posts) return undefined;
+   const removeButtons = removeButtonListeners();
+   const mainElement = document.getElementsByTagName('main')[0];
+   console.log(mainElement);
+   console.log(posts);
+   const dce = deleteChildElements(mainElement);
+   const dPosts = await displayPosts(posts); 
+   const addButtons = addButtonListeners(); 
 
- return [removeButtons, dce, dPosts, addButtons];
+   return [removeButtons, dce, dPosts, addButtons];
 
 }
 
 const selectMenuChangeEventHandler = async (e) => {
+const selectMenu = document.querySelector('select');
+selectMenu.disabled = true;
 const userId = e?.target?.value || 1;
 const posts = await getUserPosts(userId);
 const refreshPostsArray = await refreshPosts(posts);
+selectMenu.disabled = false;
 return [userId, posts, refreshPostsArray];
 }
 
